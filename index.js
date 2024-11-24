@@ -95,7 +95,7 @@ app.post('/api/users/:id/exercises', async (req, res) => {
     ).catch(err => {console.log(err);})
 
     output._id = _id; 
-    output.date = date;
+    output.date = new Date(date).toDateString();
     output.description = description;
     output.duration = Number(duration);
     output.username = result[0].username;
