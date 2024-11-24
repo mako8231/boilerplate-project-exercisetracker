@@ -169,6 +169,21 @@ app.get('/api/users/:id/logs', async (req, res) => {
 
 })
 
+app.get('/api/users/', async function(req, res){
+  let results = await select(['*'], 'User').catch(e => {console.log(e)});
+  if (results.length > 0){
+    let list = []
+    for (let i=0; i<results.length; i++){
+      list.push({
+        username:results[i].username,
+        _id:results[i].userID
+      })
+    }
+    return res.json(list)
+  } else {
+    return res.json([]);
+  }
+})
 
 
 const listener = app.listen(process.env.PORT || 3000, () => {
