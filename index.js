@@ -45,7 +45,9 @@ app.post('/api/users', async (req, res) => {
     console.log(err);   
   });
   if (result.length == 0) {
-    await insert('User', ['id', 'userID', 'username'], (`${lazyHash(username)}, '${MD5(username)}', '${username}'`))
+    let count = await select(['*'], 'User');
+    count = count.length;
+    await insert('User', ['id', 'userID', 'username'], (`${count}, '${MD5(username)}', '${username}'`))
     
     let newRes = await selectWhere(['*'], 'User', 'userID', `'${MD5(username)}'`);
     
