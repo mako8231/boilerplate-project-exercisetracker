@@ -47,13 +47,13 @@ app.post('/api/users', async (req, res) => {
   if (result.length == 0) {
     await insert('User', ['id', 'userID', 'username'], (`${lazyHash(username)}, '${MD5(username)}', '${username}'`))
     
-    let result = await selectWhere(['*'], 'User', 'userID', `'${MD5(username)}'`);
+    let newRes = await selectWhere(['*'], 'User', 'userID', `'${MD5(username)}'`);
     
-    console.log("Inserted a New User", result);
+    console.log("Inserted a New User", newRes);
     
     res.json({
-      username: result[0].username,
-      _id: result[0].userID
+      username: newRes[0].username,
+      _id: newRes[0].userID
     });
     
   } else {
@@ -196,7 +196,7 @@ function lazyHash(username){
     num += username.charCodeAt(i);
   }
 
-  return num%2000;
+  return num%50000;
 }
 
 async function select(fields, table) {
