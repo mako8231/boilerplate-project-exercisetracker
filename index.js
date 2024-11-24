@@ -84,6 +84,13 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   let date = req.body.date;
   let _id = req.params._id;
 
+  if (date === undefined || date === 'undefined'){
+    date = new Date().toISOString();
+    date = date.split("T")[0];
+  }
+
+  console.log("Fixed date??", date);
+
   //Check existing user
   let result = await selectWhere(['*'], 'User', 'userID', `'${_id}'`);
 
@@ -137,15 +144,14 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     
     let options = '';
     if (from) {
-      options += `AND date >= '${from}' `
+      options += `AND date >= '${from} 00:00:00.000'`
     }
 
-    if (to && !from) {
-      options += `AND date < '${to}' `
-    } else if (to && from){
-      options = ''
-      options += `AND date BETWEEN '${from}' AND '${to}'`
+    if (to) {
+      options += `AND date <= '${to} 23:59:59.999'`
     }
+
+    options += `ORDER BY date ASC `;
 
     if (limit) {
       options += `LIMIT ${limit}`
