@@ -171,6 +171,37 @@ app.get('/api/users/:id/logs', async (req, res) => {
 
 })
 
+app.get('/api/users/:_id/exercises', async function(req, res){
+    const output = {
+      username: "",
+      _id: "",
+      exercises : []
+    }
+  
+    let userResults = await selectWhere(['*'], 'User', 'userID', `'${req.params._id}'`).catch(async (err) => {console.log(err)});
+    
+    if (userResults.length > 0){
+      output.username = userResults[0].username;
+      output._id = userResults[0].userID;
+      let exercises = await selectWhere(['*'], 'Exercise', 'user', `${userResults[0].id}`).catch(async (err) => {console.log(err)});
+      if (exercises.length > 0){
+        for (let i=0; i<exercises.length; i++){
+          console.log(exercises.length);
+          let formatedDate = new Date(exercises[i].date).toDateString();
+          output.exercises.push(
+            {
+              duration: exercises[i].duration,
+              date: formatedDate,
+            }
+          )
+        }
+      }
+      return res.json(output);
+    } else {
+      return res.json({"error": "Missing user"});
+    }
+})
+
 app.get('/api/users/', async function(req, res){
   let results = await select(['*'], 'User').catch(e => {console.log(e)});
   if (results.length > 0){
