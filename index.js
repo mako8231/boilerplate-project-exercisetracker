@@ -144,7 +144,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
       options += `AND date < '${to}' `
     } else if (to && from){
       options = ''
-      options += `AND '${from}' BETWEEN '${to}'`
+      options += `AND date BETWEEN '${from}' AND '${to}'`
     }
 
     if (limit) {
