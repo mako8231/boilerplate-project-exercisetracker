@@ -97,7 +97,7 @@ app.post('/api/users/:id/exercises', async (req, res) => {
     output._id = _id; 
     output.date = date;
     output.description = description;
-    output.duration = duration;
+    output.duration = Number(duration);
     output.username = result[0].username;
 
     return res.json(output);
@@ -154,7 +154,7 @@ app.get('/api/users/:id/logs', async (req, res) => {
       output.log.push(
         {
           description: results[i].description,
-          duration: results[i].duration,
+          duration: Number(results[i].duration),
           date: formatedDate,
         }
       );
@@ -190,7 +190,7 @@ app.get('/api/users/:_id/exercises', async function(req, res){
           let formatedDate = new Date(exercises[i].date).toDateString();
           output.exercises.push(
             {
-              duration: exercises[i].duration,
+              duration: Number(exercises[i].duration),
               date: formatedDate,
             }
           )
