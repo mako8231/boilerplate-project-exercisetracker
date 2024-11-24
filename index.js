@@ -67,7 +67,7 @@ app.post('/api/users', async (req, res) => {
   }  
 });
 
-app.post('/api/users/:id/exercises', async (req, res) => {
+app.post('/api/users/:_id/exercises', async (req, res) => {
   //console.log(req.body);
   const output = {
     username: "",
@@ -82,7 +82,7 @@ app.post('/api/users/:id/exercises', async (req, res) => {
   let description = req.body.description;
   let duration = req.body.duration;
   let date = req.body.date;
-  let _id = req.body[':_id'];
+  let _id = req.params._id;
 
   //Check existing user
   let result = await selectWhere(['*'], 'User', 'userID', `'${_id}'`);
