@@ -106,7 +106,7 @@ app.post('/api/users/:_id/exercises', async (req, res) => {
   return res.json({'error': "non-existent user"});
 });
 
-app.get('/api/users/:id/logs', async (req, res) => {
+app.get('/api/users/:_id/logs', async (req, res) => {
   /**
    * {"params":{"id":"4c3fbd5668b809127d909f5d95685ac7"},"get":[{"from":"00-00-00","to":"00-00-00","limit":"0"}]}
    */
@@ -123,7 +123,7 @@ app.get('/api/users/:id/logs', async (req, res) => {
       date: "",
     } */
 
-  let id = req.params.id
+  let id = req.params._id
   let from = req.query.from; 
   let to = req.query.to;
   let limit = req.query.limit;
